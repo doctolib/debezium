@@ -5,6 +5,8 @@
  */
 package io.debezium.connector.postgresql;
 
+import java.util.Arrays;
+
 import io.debezium.connector.postgresql.connection.AbstractReplicationMessageColumn;
 
 /**
@@ -23,8 +25,14 @@ public class UnchangedToastedReplicationMessageColumn extends AbstractReplicatio
      */
     public static final Object UNCHANGED_TOAST_VALUE = new Object();
 
+    private boolean isStringArrayColumn = false;
+
     public UnchangedToastedReplicationMessageColumn(String columnName, PostgresType type, String typeWithModifiers, boolean optional) {
         super(columnName, type, typeWithModifiers, optional);
+        if (typeWithModifiers.equals("text[]") || typeWithModifiers.equals("_text") ||
+                typeWithModifiers.equals("character varying[]") || typeWithModifiers.equals("_varchar")) {
+            isStringArrayColumn = true;
+        }
     }
 
     @Override
@@ -34,6 +42,9 @@ public class UnchangedToastedReplicationMessageColumn extends AbstractReplicatio
 
     @Override
     public Object getValue(PostgresStreamingChangeEventSource.PgConnectionSupplier connection, boolean includeUnknownDatatypes) {
+        if (isStringArrayColumn) {
+            return Arrays.asList(UNCHANGED_TOAST_VALUE);
+        }
         return UNCHANGED_TOAST_VALUE;
     }
 }
