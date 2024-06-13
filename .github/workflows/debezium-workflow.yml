@@ -20,7 +20,7 @@ jobs:
   # that subsequent jobs can use to determine whether a particular job should be skipped or included.
   file_changes:
     name: "Detect repository changes"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     outputs:
       common-changed: ${{ steps.changed-files-common.outputs.any_changed }}
       mongodb-changed: ${{ steps.changed-files-mongodb.outputs.any_changed }}
@@ -191,7 +191,7 @@ jobs:
     name: "Dependency Cache"
     needs: [file_changes]
     if: ${{ needs.file_changes.outputs.documentation-only-changed == 'false' }}
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -239,7 +239,7 @@ jobs:
   check_style:
     name: "Checkstyle and Formatting"
     needs: [build_cache]
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -277,7 +277,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.mongodb-changed == 'true' || needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "MongoDB"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     strategy:
       matrix:
         version-mongo-server: ["4.0", "4.4", "5.0", "6.0"]
@@ -315,7 +315,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.mysql-changed == 'true' || needs.file_changes.outputs.mysql-ddl-parser-changed == 'true' || needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "MySQL"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -347,7 +347,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.postgresql-changed == 'true' || needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "PostgreSQL"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     strategy:
       matrix:
         postgres-plugin: ["assembly", "assembly,postgres-15,pgoutput-decoder"]
@@ -384,7 +384,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.oracle-changed == 'true' || needs.file_changes.outputs.oracle-ddl-parser-changed == 'true' || needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "Oracle"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -420,7 +420,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.sqlserver-changed == 'true' || needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "SQL Server"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -453,7 +453,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.outbox-changed == 'true' }}
     name: "Quarkus Outbox"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -486,7 +486,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.rest-extension-changed == 'true' }}
     name: "REST Extension"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -518,7 +518,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.schema-generator-changed == 'true' }}
     name: "Schema Generator"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -550,7 +550,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.debezium-testing-changed == 'true' }}
     name: "Debezium Testing"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v3
@@ -583,7 +583,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' || needs.file_changes.outputs.mysql-changed == 'true' || needs.file_changes.outputs.mysql-ddl-parser-changed == 'true' || needs.file_changes.outputs.storage-changed == 'true' }}
     name: "Storage"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action
         uses: actions/checkout@v2
@@ -615,7 +615,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' }}
     name: "Cassandra"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (Core)
         uses: actions/checkout@v3
@@ -672,7 +672,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' }}
     name: "Db2"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (Core)
         uses: actions/checkout@v3
@@ -729,7 +729,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' }}
     name: "Vitess"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (Core)
         uses: actions/checkout@v3
@@ -786,7 +786,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' }}
     name: "Spanner"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (Core)
         uses: actions/checkout@v3
@@ -843,7 +843,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.common-changed == 'true' }}
     name: "Debezium Server"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (Core)
         uses: actions/checkout@v3
@@ -899,7 +899,7 @@ jobs:
     needs: [check_style, file_changes]
     if: ${{ needs.file_changes.outputs.debezium-ui-changed == 'true' }}
     name: "UI"
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout Action (UI)
         uses: actions/checkout@v3

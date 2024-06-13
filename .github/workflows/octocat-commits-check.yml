@@ -10,7 +10,7 @@ on:
       - 2.*
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Check if octocat commits are present?
         id: octocat

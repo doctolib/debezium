@@ -19,7 +19,7 @@ on:
 
 jobs:
   script:
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Checkout action
         uses: actions/checkout@v3

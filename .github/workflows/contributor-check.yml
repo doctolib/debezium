@@ -11,7 +11,7 @@ on:
     types: [ opened ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Check if COPYRIGHT.txt has author name?
         id: check

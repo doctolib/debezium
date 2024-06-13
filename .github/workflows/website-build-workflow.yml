@@ -10,7 +10,7 @@ on:
       - 'documentation/**'
 jobs:
   build-deploy:
-    runs-on: ubuntu-latest
+    runs-on: prod-linux-s
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
